@@ -11,7 +11,7 @@
 *{scroll-behavior:smooth}
 body{
   margin:0;
-  background:#020617;
+  background: radial-gradient(circle at 20% 20%, #0f172a, #020617 60%);
   color:white;
   overflow-x:hidden;
   font-family:Inter,system-ui,sans-serif;
@@ -23,29 +23,12 @@ body{
   opacity:.08;
 }
 .cursor-glow{
-  position:fixed;width:360px;height:360px;border-radius:999px;
+  position:fixed;width:220px;height:220px;border-radius:999px;
   background:radial-gradient(circle,rgba(56,189,248,.35),transparent 65%);
   pointer-events:none;transform:translate(-50%,-50%);
   z-index:2;
 }
-.blob{
-  position:fixed;width:520px;height:520px;border-radius:999px;
-  filter:blur(120px);opacity:.55;z-index:0;
-  animation:blob 40s ease-in-out infinite alternate;
-}
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-.b1{background:#2563eb;top:-140px;left:-140px}
-.b2{background:#7c3aed;right:-160px;top:28%;animation-delay:2s}
-.b3{background:#06b6d4;left:30%;bottom:-170px;animation-delay:4s}
-@keyframes blob{
-  from{transform:translate(0,0) scale(1)}
-  to{transform:translate(70px,-50px) scale(1.18)}
-}
+
 .glass{
   background:linear-gradient(135deg,rgba(255,255,255,.11),rgba(255,255,255,.035));
   border:1px solid rgba(255,255,255,.13);
@@ -54,7 +37,7 @@ body{
 }
 .fade{
   opacity:0;transform:translateY(35px);
-  transition:all .9s cubic-bezier(.2,.8,.2,1);
+  transition:all 1.4s ease;
 }
 .fade.show{opacity:1;transform:translateY(0)}
 .card{
@@ -62,8 +45,8 @@ body{
   transform-style:preserve-3d;
 }
 .card:hover{
-  transform:translateY(-8px);
-  box-shadow:0 0 55px rgba(56,189,248,.35);
+  transform:translateY(-4px);
+  box-shadow:0 10px 40px rgba(0,0,0,0.4);
 }
 .gradient-text{
   background:linear-gradient(90deg,#38bdf8,#818cf8,#c084fc,#22d3ee);
@@ -71,7 +54,7 @@ body{
   color:transparent;
 }
 .marquee{
-  animation:marquee 22s linear infinite;
+  overflow-x:auto;
 }
 @keyframes marquee{
   from{transform:translateX(0)}
@@ -85,9 +68,6 @@ body{
 
 <body>
 
-<div class="blob b1"></div>
-<div class="blob b2"></div>
-<div class="blob b3"></div>
 <div class="noise"></div>
 <div id="cursorGlow" class="cursor-glow"></div>
 
@@ -354,19 +334,6 @@ const observer=new IntersectionObserver(entries=>{
   });
 },{threshold:.12});
 document.querySelectorAll(".fade").forEach(el=>observer.observe(el));
-
-if (window.innerWidth > 768) {
-  document.querySelectorAll(".card").forEach(card=>{
-    card.addEventListener("mousemove",e=>{
-      const r=card.getBoundingClientRect();
-      const x=e.clientX-r.left,y=e.clientY-r.top;
-      card.style.transform=`perspective(900px) rotateX(${-(y-r.height/2)/28}deg) rotateY(${(x-r.width/2)/28}deg) translateY(-8px)`;
-    });
-    card.addEventListener("mouseleave",()=>{
-      card.style.transform="";
-    });
-  });
-}
 
 function voiceIntro(){
   speechSynthesis.cancel();

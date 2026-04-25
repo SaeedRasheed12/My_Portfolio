@@ -31,7 +31,13 @@ body{
 .blob{
   position:fixed;width:520px;height:520px;border-radius:999px;
   filter:blur(120px);opacity:.55;z-index:0;
-  animation:blob 14s ease-in-out infinite alternate;
+  animation:blob 40s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 .b1{background:#2563eb;top:-140px;left:-140px}
 .b2{background:#7c3aed;right:-160px;top:28%;animation-delay:2s}
@@ -338,7 +344,7 @@ function typing(){
     deleting=!deleting;
     if(!deleting) wi=(wi+1)%words.length;
   }
-  setTimeout(typing,deleting?40:85);
+  setTimeout(typing,deleting?70:130);
 }
 typing();
 
@@ -349,16 +355,18 @@ const observer=new IntersectionObserver(entries=>{
 },{threshold:.12});
 document.querySelectorAll(".fade").forEach(el=>observer.observe(el));
 
-document.querySelectorAll(".card").forEach(card=>{
-  card.addEventListener("mousemove",e=>{
-    const r=card.getBoundingClientRect();
-    const x=e.clientX-r.left,y=e.clientY-r.top;
-    card.style.transform=`perspective(900px) rotateX(${-(y-r.height/2)/28}deg) rotateY(${(x-r.width/2)/28}deg) translateY(-8px)`;
+if (window.innerWidth > 768) {
+  document.querySelectorAll(".card").forEach(card=>{
+    card.addEventListener("mousemove",e=>{
+      const r=card.getBoundingClientRect();
+      const x=e.clientX-r.left,y=e.clientY-r.top;
+      card.style.transform=`perspective(900px) rotateX(${-(y-r.height/2)/28}deg) rotateY(${(x-r.width/2)/28}deg) translateY(-8px)`;
+    });
+    card.addEventListener("mouseleave",()=>{
+      card.style.transform="";
+    });
   });
-  card.addEventListener("mouseleave",()=>{
-    card.style.transform="";
-  });
-});
+}
 
 function voiceIntro(){
   speechSynthesis.cancel();

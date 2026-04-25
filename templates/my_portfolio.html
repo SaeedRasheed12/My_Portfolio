@@ -8,7 +8,6 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-*{scroll-behavior:smooth}
 body{
   margin:0;
   background: radial-gradient(circle at 20% 20%, #0f172a, #020617 60%);
@@ -36,7 +35,7 @@ body{
   box-shadow:0 20px 70px rgba(0,0,0,.25);
 }
 .fade{
-  opacity:0;transform:translateY(35px);
+  opacity:0;transform:translateY(20px);
   transition:all 1.4s ease;
 }
 .fade.show{opacity:1;transform:translateY(0)}
@@ -92,13 +91,13 @@ body{
     
     <div class="text-center lg:text-left">
       <div class="fade inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-white/80 mb-6">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+       <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
         Product Engineer • Full Stack • Mobile Apps
       </div>
 
-      <h1 class="fade text-4xl sm:text-6xl lg:text-7xl font-black leading-[1.05]">
+      <h1 class="fade text-4xl sm:text-6xl lg:text-7xl font-black leading-[1.05] min-h-[120px] sm:min-h-[160px]">
         I Build <br>
-        <span id="typing" class="gradient-text"></span>
+        <span id="typing" class="gradient-text inline-block min-w-[280px]"></span>
       </h1>
 
       <p class="fade mt-6 text-white/70 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0">
@@ -314,18 +313,16 @@ document.addEventListener("mousemove",e=>{
 
 const words=["Production Systems.","Marketplaces.","Mobile Apps.","Premium Websites.","APIs & Dashboards."];
 let wi=0,ci=0,deleting=false;
+const text = "Production Systems.";
+let i = 0;
+
 function typing(){
-  const el=document.getElementById("typing");
-  const word=words[wi];
-  el.textContent=word.substring(0,ci);
-  if(!deleting && ci<word.length){ci++}
-  else if(deleting && ci>0){ci--}
-  else{
-    deleting=!deleting;
-    if(!deleting) wi=(wi+1)%words.length;
+  document.getElementById("typing").innerText = text.slice(0, i++);
+  if(i <= text.length){
+    setTimeout(typing, 80);
   }
-  setTimeout(typing,deleting?70:130);
 }
+
 typing();
 
 const observer=new IntersectionObserver(entries=>{
